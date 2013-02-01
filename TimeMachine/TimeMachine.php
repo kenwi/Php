@@ -59,6 +59,9 @@ class titsMachine
 	// Samlingsarray for alle objekter
 	private $objects;
 
+	// Array for å holde oversikt over når objekter skal spawnes
+	private $spawnArray = array();
+
 	public function __construct()
 	{
 		// Opprett array for alle objekter
@@ -91,18 +94,32 @@ class titsMachine
 		{
 			if( $value->whenWillISpawn() <= $this->currentTime )	
 			{
-				$value->printType();
+				//$value->printType();
+				echo "A " . $value->getType() . "\n";
 			}
 		}
 	}
 
+	public function instantiateObject( $className )
+	{
+		return new $className;
+	}
+
 	public function placeObject( $object )
 	{
+		// Legg navnet til klassen som det skal lage en instans av i arrayet
+		$this->spawnArray[$this->currentTime][$object];
+
+		var_dump( $this->spawnArray );
+
+		/*
 		echo "Placing object " . $object->getType() . " in time " . $this->currentTime . "\n";
 		
 		// Sett tidspunktet objektet skal eksistere fra og legg til objektet i objektarray
 		$object->shouldSpawnAt( $this->currentTime );
 		$this->objects[] = $object;
+		*/
+
 	}
 
 	public function runSimulation()
@@ -111,14 +128,15 @@ class titsMachine
 		$this->whatTimeIsIt();
 		
 		// Legg inn et objekt i nåværende tid (0)
-		$this->placeObject( new squareObject() );
+		//$this->placeObject( new squareObject() );
+		$this->placeObject( "squareObject" );
 
 		// Se hvilke objekter som eksisterer i denne tiden
 		$this->printObservableObjects();
 
 		// Reis framover i tid og legg objektet i framtiden (5)
 		$this->travelToTime( 5 );
-		$this->placeObject( new cubeObject() );
+		//$this->placeObject( new cubeObject() );
 
 		// Reis tilbake i tid
 		$this->travelToTime( 0 );
@@ -133,6 +151,12 @@ class titsMachine
 			$this->printObservableObjects();
 		}		
 	}
+}
+
+class spawnObject
+{
+	public $object;
+	public $spawnTime;
 }
 
 $tits = new titsMachine();
