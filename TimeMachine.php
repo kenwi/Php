@@ -51,7 +51,7 @@ class squareObject extends renderObject
 }
 
 // Si ordet "tidsmaskin" til en engelskmann. Hirr
-class titsMachine 
+class timeMachine 
 {
 	// Nåværende tid
 	private $currentTime;
@@ -135,7 +135,7 @@ class titsMachine
 	}
 }
 
-$tits = new titsMachine();
+$tits = new timeMachine();
 $tits->runSimulation();
 
 ?>
